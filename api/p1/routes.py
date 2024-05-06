@@ -17,6 +17,8 @@ def user_dep(name: str=params, password: str=params):
 def get_user(user: dict= Depends(user_dep)) -> dict:
     return user
 
+
+"""single path dependency"""
 #if the dependency function doesn't return any value but just chcks on the validity 
 #of a values lets say, then it can be defined within the decorator of the path function/
 #web endpoint function as follows.
@@ -31,6 +33,30 @@ def check_dep(name: str=params, passord: str = params):
 def check_user() -> bool:
     return True
 
+"""multiple path dependency"""
+# the FastAPI router app is not built for dealing with multiple endpoints at a time.
+# so we use APIRouter, as in, app = APIRouter()
+# when you define a top level FastAPI application object, you can add dependencies to it 
+#that will apply to all path functions as follows.
+
+from fastapi import APIRouter
+
+router = APIRouter(..., dependencies=[Depends(check_dep)])
+#that will make check_dep() dependency function to be called for all path functions under router.
+
+# you can as well have more than one dependency function attatched to a fastapi() app instance as follows
+
+def depfunc1():
+    pass
+
+def depfunc2():
+    pass
+
+app = FastAPI(...,dependencies=[Depends(depfunc1), Depends(depfunc2)])
+
+@app.get("/main")
+def get_main():
+    pass
 
 if __name__=="__main__":
     import uvicorn
