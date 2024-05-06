@@ -19,7 +19,7 @@ def get_user(user: dict= Depends(user_dep)) -> dict:
 
 
 """single path dependency"""
-#if the dependency function doesn't return any value but just chcks on the validity 
+#if the dependency function doesn't return any value but just checks on the validity 
 #of a values lets say, then it can be defined within the decorator of the path function/
 #web endpoint function as follows.
 
